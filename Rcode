@@ -1,0 +1,14 @@
+install.packages("tesseract")
+install.packages("imagerExtra")
+install.packages("imager")
+library(imager)
+library(imagerExtra)
+library(tesseract)
+img <- load.image('[path to image].jpeg') # replace with local path or URL to image
+img <- grayscale(img, method = "Luma", drop = TRUE)
+clean_img <- ThresholdAdaptive(im=DenoiseDCT(img, 0.01),k= 0.1, windowsize = 21,range = c(0,1))
+# alter k and windowsize to achieve desired effect
+plot(clean_img) # visualizes output
+clean_img_inv <- !clean_img
+img <- as.cimg(clean_img_inv)
+save.image(img,file = '[path to export].jpg', quality = 1) #replace with local path to desired save
